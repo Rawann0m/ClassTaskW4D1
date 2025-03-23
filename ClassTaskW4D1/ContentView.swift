@@ -8,16 +8,33 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject private var settingsViewModel = SettingsViewModel()
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        TabView {
+            
+            // service HomeView
+            HomeView(settingsViewModel: settingsViewModel)
+                .tabItem {
+                    Label("Home", systemImage: "house")
+                }
+            
+            // SettingsView
+            SettingsView(settingsViewModel: settingsViewModel)
+                .tabItem {
+                    Label("Settings", systemImage: "gear")
+                }
         }
-        .padding()
-    }
-}
+        .background(Color.clear) // Set the TabView background to clear
+                .onAppear {
+                    // Customize the TabView appearance
+                    let appearance = UITabBarAppearance()
+                    appearance.configureWithTransparentBackground() // Make the tab bar transparent
+                    appearance.backgroundColor = .clear // Set the background color to clear
+                    UITabBar.appearance().standardAppearance = appearance
+                    UITabBar.appearance().scrollEdgeAppearance = appearance
+                }
+            }
+        }
 
 #Preview {
     ContentView()
